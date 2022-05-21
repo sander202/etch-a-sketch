@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="style.css">
+    <title>Etch-A-Sketch</title>
+</head>
+<body>
+   
+    <h1>Etch-A-Sketch</h1>
+    <button onclick="newGrid()">New grid</button>
+    <div class="error"></div>
+    <div class="container">
+    </div>
+    <script>
+
+        const container = document.querySelector('.container');
+        const error = document.querySelector('.error');
+
+        function removeAllChildNodes(parent) {
+            while (parent.firstChild) {
+                parent.removeChild(parent.firstChild);
+            }
+        }
+        
+        function paintSquare(square) {
+            square.classList.add('black');
+        }
+
+        function newGrid() {
+            error.textContent = "";
+            removeAllChildNodes(container);
+            const dimensions = prompt("Enter the number of squares per side of the grid(maximum 64):");
+            if (dimensions <= 64 && dimensions > 0) {
+                for (i = 0; i < dimensions; i++) {
+                    const row = document.createElement('div');
+                    row.classList.add('row');
+                    container.appendChild(row);                    
+                    for (j = 0; j < dimensions; j++) {
+                        const column = document.createElement('div');
+                        column.classList.add('column');
+                        const target = document.getElementsByClassName('row')[i];
+                        target.appendChild(column);
+                    }
+                }
+                const allSquares = document.querySelectorAll('.column');
+                allSquares.forEach(function(square) {
+                    square.addEventListener("mouseover", function() {
+                        paintSquare(square);
+                    })
+                })
+            } else {
+                error.textContent = "Dimensions don't fit the criteria. Try again!"
+            }
+        }
+
+        
+        
+    </script>
+</body>
+</html>
